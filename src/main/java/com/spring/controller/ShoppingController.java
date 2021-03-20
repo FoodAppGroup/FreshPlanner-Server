@@ -12,15 +12,16 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
+@RequestMapping("/api/shopping")
 public class ShoppingController {
 
     @Autowired
     private ShoppingDatabase shoppingDatabase;
 
     @ApiOperation("Request to get a shoppingList element by it's name.")
-    @RequestMapping(value = "/shopping/get", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Shopping> getElement(
             @RequestParam(value = "list name", defaultValue = "Standardliste") String listName,
             @RequestParam(value = "product name", defaultValue = "Apfel") String productName) {
@@ -29,7 +30,7 @@ public class ShoppingController {
     }
 
     @ApiOperation("Request to get all shoppingList elements.")
-    @RequestMapping(value = "/shopping/get-list", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/get-list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Shopping>> getAllElementsFromList(
             @RequestParam(value = "list name", defaultValue = "Standardliste") String listName) {
 
@@ -37,14 +38,14 @@ public class ShoppingController {
     }
 
     @ApiOperation("Request to get all shoppingList elements.")
-    @RequestMapping(value = "/shopping/get-all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Shopping>> getAllElements() {
 
         return ResponseEntity.ok(shoppingDatabase.getAllElements());
     }
 
     @ApiOperation("Request to add a new shoppingList element.")
-    @RequestMapping(value = "/shopping/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/add", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Shopping> addElement(
             @RequestBody ShoppingRequest request) {
 
@@ -52,7 +53,7 @@ public class ShoppingController {
     }
 
     @ApiOperation("Request to update a shoppingList element.")
-    @RequestMapping(value = "/shopping/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/update", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Shopping> updateElement(
             @RequestBody ShoppingRequest request) {
 
@@ -60,7 +61,7 @@ public class ShoppingController {
     }
 
     @ApiOperation("Request to update a shoppingList element.")
-    @RequestMapping(value = "/shopping/remove", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(path = "/remove", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Shopping> removeElement(
             @RequestParam(value = "list name", defaultValue = "Standardliste") String listName,
             @RequestParam(value = "product name", defaultValue = "Apfel") String productName) {
@@ -69,14 +70,14 @@ public class ShoppingController {
     }
 
     @ApiOperation("Update the database with the backup file.")
-    @RequestMapping(value = "/shopping/backup/load", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/backup/load", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Shopping>> loadBackup() throws IOException {
 
         return ResponseEntity.ok(shoppingDatabase.loadBackup());
     }
 
     @ApiOperation("Saves the entire table to a file.")
-    @RequestMapping(value = "/shopping/backup/save", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(path = "/backup/save", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Shopping>> saveBackup() throws IOException {
 
         return ResponseEntity.ok(shoppingDatabase.saveBackup());
