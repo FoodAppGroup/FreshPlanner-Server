@@ -16,6 +16,29 @@ All details can be found in this file: [Database Information](.documentation/dat
 
 All details can be found in this file: [Classes Information](.documentation/java_classes.md)
 
+## Application Properties
+
+__File:__ [application.properties](src/main/resources/application.properties)
+
+### Endpoints
+
+* `server.port` = Port for the application
+
+### Database
+
+* `spring.datasource.url` = MySQL Database, on URL:Port, with database fresh
+    * with timezone errors add
+      this: `?createDatabaseIfNotExist=true&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC`
+* `spring.datasource.username` = user with permissions to create and manage the database
+* `spring.datasource.password` = password for the user
+
+### JPA + Hibernate
+
+* `spring.jpa.show-sql` = show sql log
+* `spring.jpa.hibernate.ddl-auto` = hibernate will automatically update the tables
+    * [extended ddl-auto documentation](https://docs.jboss.org/hibernate/orm/5.4/userguide/html_single/Hibernate_User_Guide.html#configurations-hbmddl)
+* `spring.jpa.properties.hibernate.dialect` = depends on the database, can be removed for maybe correct default
+
 ## Useful Links
 
 * [Swagger Tutorial](https://www.baeldung.com/swagger-2-documentation-for-spring-rest-api)
